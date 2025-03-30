@@ -1,0 +1,25 @@
+header {
+  display: flex;
+  height: 80px;
+  background-color: rgb(52, 49, 49);
+  align-items: center;
+  justify-content: center;
+}
+
+header a {
+  color: #fff;
+  margin: 20px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 20px;
+}
+
+li {
+  list-style: none;
+}
+
+a:hover {
+  color: #f1cdcd;
+}
