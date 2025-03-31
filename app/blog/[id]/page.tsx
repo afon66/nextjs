@@ -3,7 +3,7 @@ type Props = {
     id: string;
   };
 };
-
+// simple nothing
 async function getData(id: string) {
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${id}`,
