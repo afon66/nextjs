@@ -1,41 +1,36 @@
-import { Metadata } from "next";
-import Link from "next/link";
+"use client";
+import { Posts } from "@/components/Posts";
+import { useEffect } from "react";
+import { PostSearch } from "@/components/PostSearch";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getPosts,
+  selectIsLoading,
+  selectPosts,
+} from "@/store/slices/postsReducer";
+import { AppDispatch } from "@/store/store";
 
-type Post = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
+export default function Blog() {
+  const posts = useSelector(selectPosts);
+  const isLoading = useSelector(selectIsLoading);
+  const dispatch = useDispatch<AppDispatch>();
 
-async function getPosts() {
-  const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
-    next: {
-      revalidate: 60,
-    },
-  });
-
-  if (!response.ok) throw new Error("Unable to fetch posts");
-  return response.json();
-}
-
-export const metadata: Metadata = {
-  title: "Blog | Next App",
-};
-
-export default async function Blog() {
-  const posts = await getPosts();
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
 
   return (
     <>
-      <h2>Blog page</h2>
-      <ul>
-        {posts.map((post: Post) => (
-          <li key={post.id}>
-            <Link href={`/blog/${post.id}`}>{post.title}</Link>
-          </li>
-        ))}
-      </ul>
+      <h1>Blog page</h1>
+      <PostSearch />
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <>
+          <h2>Blog page</h2>
+          <Posts posts={posts} />
+        </>
+      )}
     </>
   );
 }
